@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from crewai import Agent, Task
+from crewai import Agent, Task, LLM
 from loguru import logger
 from pydantic import BaseModel, Field
 
@@ -84,11 +84,11 @@ def build_script_writer() -> Agent:
             "build credibility and trust."
         ),
         tools=[GDriveTool()],
-        llm_config={
-            "model": f"openrouter/{settings.openrouter_model}",
-            "api_key": settings.openrouter_api_key,
-            "base_url": settings.openrouter_base_url,
-        },
+        llm=LLM(
+            model=f"openrouter/{settings.openrouter_model}",
+            api_key=settings.openrouter_api_key,
+            base_url=settings.openrouter_base_url,
+        ),
         verbose=True,
         allow_delegation=False,
         max_retry_limit=3,

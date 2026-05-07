@@ -7,7 +7,7 @@ Falls back to a placeholder gradient image if the API is unreachable.
 import hashlib
 import time
 from pathlib import Path
-from typing import Optional, Type
+from typing import Optional, Type, ClassVar
 
 import httpx
 from crewai.tools import BaseTool
@@ -52,7 +52,7 @@ class ImageGenTool(BaseTool):
     )
     args_schema: Type[BaseModel] = ImageGenInput
 
-    POLLINATIONS_URL = "https://image.pollinations.ai/prompt/{prompt}"
+    POLLINATIONS_URL: ClassVar[str] = "https://image.pollinations.ai/prompt/{prompt}"
 
     @retry(
         stop=stop_after_attempt(3),

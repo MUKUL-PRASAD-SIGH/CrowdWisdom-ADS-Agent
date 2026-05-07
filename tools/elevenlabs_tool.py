@@ -6,7 +6,7 @@ Uses the free tier (10,000 chars/month on free plan).
 
 import time
 from pathlib import Path
-from typing import Optional, Type
+from typing import Optional, Type, ClassVar
 
 import httpx
 from crewai.tools import BaseTool
@@ -58,7 +58,7 @@ class ElevenLabsTool(BaseTool):
     )
     args_schema: Type[BaseModel] = ElevenLabsInput
 
-    BASE_URL = "https://api.elevenlabs.io/v1"
+    BASE_URL: ClassVar[str] = "https://api.elevenlabs.io/v1"
 
     @retry(
         stop=stop_after_attempt(3),

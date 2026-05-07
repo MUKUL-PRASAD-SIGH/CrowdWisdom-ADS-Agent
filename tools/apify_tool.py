@@ -7,7 +7,7 @@ Returns the top performing ads from the last 30 days for a given query.
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Optional, Type
+from typing import Any, Optional, Type, ClassVar
 
 from apify_client import ApifyClient
 from crewai.tools import BaseTool
@@ -61,7 +61,7 @@ class ApifyAdsTool(BaseTool):
     args_schema: Type[BaseModel] = ApifyAdsInput
 
     # ── Apify actor ID ─────────────────────────────────────────────────────
-    ACTOR_ID: str = "apify/facebook-ads-library-scraper"
+    ACTOR_ID: ClassVar[str] = "apify/facebook-ads-library-scraper"
 
     @retry(
         stop=stop_after_attempt(3),
