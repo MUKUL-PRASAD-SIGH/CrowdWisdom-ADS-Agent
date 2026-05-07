@@ -1,0 +1,30 @@
+{
+  "name": "cwt-ad-video",
+  "version": "1.0.0",
+  "description": "CrowdWisdomTrading 60-second Ad Video — Remotion composition",
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render AdVideo outputs/final_ad.mp4",
+    "render": "npx remotion render AdVideo",
+    "preview": "npx remotion preview"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "remotion": "^4.0.0",
+    "@remotion/media-utils": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.4.0"
+  },
+  "remotion": {
+    "entryPoint": "src/index.ts",
+    "fps": 30,
+    "durationInFrames": 1800,
+    "width": 1080,
+    "height": 1920
+  }
+}
