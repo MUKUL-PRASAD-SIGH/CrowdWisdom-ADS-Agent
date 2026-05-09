@@ -185,6 +185,7 @@ def _validate_config(settings) -> None:
     issues = []
 
     checks = [
+        ("GEMINI_API_KEY", settings.gemini_api_key, ""),
         ("OPENROUTER_API_KEY", settings.openrouter_api_key, "YOUR_OPENROUTER_API_KEY_HERE"),
         ("APIFY_API_TOKEN", settings.apify_api_token, "YOUR_APIFY_API_TOKEN_HERE"),
         ("ELEVENLABS_API_KEY", settings.elevenlabs_api_key, "YOUR_ELEVENLABS_API_KEY_HERE"),
@@ -199,7 +200,8 @@ def _validate_config(settings) -> None:
     for name, value, placeholder in checks:
         if not value or value == placeholder:
             status = "[red]✗ MISSING[/red]"
-            issues.append(name)
+            if name not in ("GEMINI_API_KEY", "GDRIVE_FILE_ID"):
+                issues.append(name)
             preview = "[red]NOT SET[/red]"
         else:
             status = "[green]✓ SET[/green]"
@@ -208,6 +210,21 @@ def _validate_config(settings) -> None:
         table.add_row(name, status, preview)
 
     console.print(table)
+
+    # Show active LLM provider
+    if settings.gemini_api_key:
+        console.print(
+            f"\n[green]🧠 LLM Provider: Google Gemini ({settings.gemini_model})[/green]"
+            f"\n[dim]   Free tier: ~1500 req/day, 15 RPM[/dim]"
+        )
+    elif settings.openrouter_api_key:
+        console.print(
+            f"\n[yellow]🧠 LLM Provider: OpenRouter ({settings.openrouter_model})[/yellow]"
+            f"\n[dim]   Free tier: 50 req/day ⚠ (set GEMINI_API_KEY for 30x more)[/dim]"
+        )
+    else:
+        console.print("\n[red]✗ No LLM provider configured! Set GEMINI_API_KEY or OPENROUTER_API_KEY.[/red]")
+        issues.append("LLM_PROVIDER")
 
     if issues:
         console.print(

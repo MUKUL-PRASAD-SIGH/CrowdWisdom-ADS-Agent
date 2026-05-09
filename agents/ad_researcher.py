@@ -9,10 +9,11 @@ Saves results to outputs/ads_raw.json.
 import json
 from pathlib import Path
 
-from crewai import Agent, Task, LLM
+from crewai import Agent, Task
 from loguru import logger
 
 from config import get_settings
+from llm_with_retry import build_llm
 from tools.apify_tool import ApifyAdsTool
 
 settings = get_settings()
@@ -37,14 +38,11 @@ def build_ad_researcher() -> Agent:
             f"You are researching on behalf of {settings.target_brand} ({settings.target_website})."
         ),
         tools=[ApifyAdsTool()],
-        llm=LLM(
-            model=f"openrouter/{settings.openrouter_model}",
-            api_key=settings.openrouter_api_key,
-            base_url=settings.openrouter_base_url,
-        ),
+        llm=build_llm(),
         verbose=True,
         allow_delegation=False,
         max_retry_limit=3,
+        max_rpm=5,
     )
 
 

@@ -5,6 +5,7 @@ crewai-tools>=0.14.0
 # ── LLM / OpenRouter ───────────────────────────────────────
 openai>=1.30.0           # OpenRouter is OpenAI-compatible
 litellm>=1.40.0
+google-generativeai>=0.8.0  # Google Gemini (free tier)
 
 # ── Apify Client ───────────────────────────────────────────
 apify-client>=1.7.0

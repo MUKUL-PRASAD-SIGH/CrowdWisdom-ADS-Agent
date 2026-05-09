@@ -18,12 +18,18 @@ load_dotenv(Path(__file__).parent / ".env")
 
 class Settings(BaseSettings):
     # ── OpenRouter / LLM ──────────────────────────────────
-    openrouter_api_key: str = Field(..., env="OPENROUTER_API_KEY")
+    openrouter_api_key: str = Field(default="", env="OPENROUTER_API_KEY")
     openrouter_model: str = Field(
         default="meta-llama/llama-3.3-8b-instruct:free", env="OPENROUTER_MODEL"
     )
     openrouter_base_url: str = Field(
         default="https://openrouter.ai/api/v1", env="OPENROUTER_BASE_URL"
+    )
+
+    # ── Google Gemini (Free tier — 1500 req/day) ──────────
+    gemini_api_key: str = Field(default="", env="GEMINI_API_KEY")
+    gemini_model: str = Field(
+        default="gemini/gemini-2.5-flash", env="GEMINI_MODEL"
     )
 
     # ── Apify ─────────────────────────────────────────────

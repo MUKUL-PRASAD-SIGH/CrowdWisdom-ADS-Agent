@@ -14,11 +14,12 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from crewai import Agent, Task, LLM
+from crewai import Agent, Task
 from loguru import logger
 from pydantic import BaseModel, Field
 
 from config import get_settings
+from llm_with_retry import build_llm
 
 settings = get_settings()
 
@@ -81,14 +82,11 @@ def build_pain_extractor() -> Agent:
             "and aspiration to beat the market. "
             "You break down ads into their core components and extract reusable marketing DNA."
         ),
-        llm=LLM(
-            model=f"openrouter/{settings.openrouter_model}",
-            api_key=settings.openrouter_api_key,
-            base_url=settings.openrouter_base_url,
-        ),
+        llm=build_llm(),
         verbose=True,
         allow_delegation=False,
         max_retry_limit=3,
+        max_rpm=5,
     )
 
 

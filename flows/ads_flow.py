@@ -13,6 +13,7 @@ State is carried in AdsFlowState (Pydantic model).
 """
 
 import json
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -117,6 +118,9 @@ class AdsFlow(Flow[AdsFlowState]):
         Launch the Pain Extractor crew.
         Analyses the scraped ads and extracts marketing DNA.
         """
+        # Cooldown to let rate-limit window reset
+        logger.info("⏳ Cooling down 30s before Step 2 (rate-limit safety)...")
+        time.sleep(30)
         logger.info("=" * 60)
         logger.info("STEP 2 — Extracting pain points and marketing concepts")
         logger.info("=" * 60)
@@ -161,6 +165,9 @@ class AdsFlow(Flow[AdsFlowState]):
         Launch the Script Writer crew.
         Fetches GDrive brand data + uses pain concepts to write the ad script.
         """
+        # Cooldown to let rate-limit window reset
+        logger.info("⏳ Cooling down 30s before Step 3 (rate-limit safety)...")
+        time.sleep(30)
         logger.info("=" * 60)
         logger.info("STEP 3 — Writing 60-second ad script")
         logger.info("=" * 60)
@@ -200,6 +207,9 @@ class AdsFlow(Flow[AdsFlowState]):
         Launch the Video Producer crew.
         Generates images, voiceover, and renders Remotion video.
         """
+        # Cooldown to let rate-limit window reset
+        logger.info("⏳ Cooling down 30s before Step 4 (rate-limit safety)...")
+        time.sleep(30)
         logger.info("=" * 60)
         logger.info("STEP 4 — Producing 60-second ad video")
         logger.info("=" * 60)

@@ -12,11 +12,12 @@ import json
 from pathlib import Path
 from typing import Optional
 
-from crewai import Agent, Task, LLM
+from crewai import Agent, Task
 from loguru import logger
 from pydantic import BaseModel, Field
 
 from config import get_settings
+from llm_with_retry import build_llm
 from tools.elevenlabs_tool import ElevenLabsTool
 from tools.image_gen_tool import ImageGenTool
 from tools.remotion_tool import RemotionRenderTool
@@ -65,14 +66,11 @@ def build_video_producer() -> Agent:
             "a punchy audio-visual rhythm."
         ),
         tools=[ImageGenTool(), ElevenLabsTool(), RemotionRenderTool()],
-        llm=LLM(
-            model=f"openrouter/{settings.openrouter_model}",
-            api_key=settings.openrouter_api_key,
-            base_url=settings.openrouter_base_url,
-        ),
+        llm=build_llm(),
         verbose=True,
         allow_delegation=False,
         max_retry_limit=2,
+        max_rpm=5,
     )
 
 
