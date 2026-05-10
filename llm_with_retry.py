@@ -39,6 +39,12 @@ if not logger.handlers:
     logger.addHandler(handler)
 
 
+from tenacity import retry_if_exception
+
+def is_rate_limit_error(exception):
+    err_str = str(exception).lower()
+    return "429" in err_str or "rate limit" in err_str or "resource_exhausted" in err_str or "quota" in err_str
+
 class RateLimitedLLM(LLM):
     """
     Drop-in replacement for CrewAI's LLM that automatically retries
@@ -56,7 +62,7 @@ class RateLimitedLLM(LLM):
         return self._call_with_retry(*args, **kwargs)
 
     @retry(
-        retry=retry_if_exception_message(match=r"(?i).*(429|rate.limit).*"),
+        retry=retry_if_exception(is_rate_limit_error),
         stop=stop_after_attempt(8),
         wait=wait_exponential(multiplier=1, min=15, max=120),
         before_sleep=before_sleep_log(logger, logging.WARNING),
