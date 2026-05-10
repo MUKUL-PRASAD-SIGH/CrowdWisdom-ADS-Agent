@@ -1,0 +1,54 @@
+{
+  "scenes": [
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_1.jpg",
+      "voiceoverText": "Tired of guessing games in the market? Unlock the power of collective intelligence with CrowdWisdomTrading!",
+      "onScreenText": "Tired of Guessing Games?",
+      "durationSeconds": 8
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_2.jpg",
+      "voiceoverText": "We combine cutting-edge AI with the insights of a global community of expert traders.",
+      "onScreenText": "AI + Human Intelligence",
+      "durationSeconds": 8
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_3.jpg",
+      "voiceoverText": "Get real-time alerts, proven strategies, and a secure platform designed for your success.",
+      "onScreenText": "Real-time Alerts & Strategies",
+      "durationSeconds": 8
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_4.jpg",
+      "voiceoverText": "Whether you're a seasoned pro or just starting out, CrowdWisdomTrading empowers you to make smarter, more profitable decisions.",
+      "onScreenText": "Smarter Decisions for All",
+      "durationSeconds": 9
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_5.jpg",
+      "voiceoverText": "Join a community where success is shared, and your financial goals are within reach.",
+      "onScreenText": "Community-Driven Success",
+      "durationSeconds": 8
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_6.jpg",
+      "voiceoverText": "Stop trading alone. Start trading smarter.",
+      "onScreenText": "Trade Smarter, Not Alone",
+      "durationSeconds": 8
+    },
+    {
+      "imagePath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\images\\scene_7.jpg",
+      "voiceoverText": "Visit CrowdWisdomTrading.com today and transform your financial future!",
+      "onScreenText": "Transform Your Future! CrowdWisdomTrading.com",
+      "durationSeconds": 11
+    }
+  ],
+  "audioPath": "C:\\Users\\Mukul Prasad\\Desktop\\PROJECTS\\Intern\\crowdwisdom-ads-agent\\outputs\\audio\\voiceover.mp3",
+  "brandName": "CrowdWisdomTrading",
+  "callToAction": "Visit CrowdWisdomTrading.com Today!",
+  "brandColor": "#00D4AA",
+  "durationSeconds": 60,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920
+}

@@ -61,7 +61,7 @@ class ApifyAdsTool(BaseTool):
     args_schema: Type[BaseModel] = ApifyAdsInput
 
     # ── Apify actor ID ─────────────────────────────────────────────────────
-    ACTOR_ID: ClassVar[str] = "apify/facebook-ads-library-scraper"
+    ACTOR_ID: ClassVar[str] = "leadsbrary/meta-ads-library-scraper"
 
     @retry(
         stop=stop_after_attempt(3),
@@ -86,13 +86,21 @@ class ApifyAdsTool(BaseTool):
 
         client = ApifyClient(settings.apify_api_token)
 
+        # Build Meta Ad Library search URL (the format the actor expects)
+        import urllib.parse
+        encoded_query = urllib.parse.quote(query)
+        search_url = (
+            f"https://www.facebook.com/ads/library/"
+            f"?active_status=active&ad_type=all&country={country}"
+            f"&q={encoded_query}"
+        )
+
         run_input = {
-            "searchQuery": query,
-            "adType": "ALL",
-            "country": country,
-            "adCategory": ad_category,
+            "startUrls": [search_url],
             "maxResults": limit,
-            "addEstimatedReach": True,
+            "includeAboutPage": True,
+            "scrapeAdDetails": True,
+            "countryFallback": country,
         }
 
         try:
@@ -125,35 +133,39 @@ class ApifyAdsTool(BaseTool):
                 pass  # if we can't parse date, include it anyway
 
             # ── Normalise fields ───────────────────────────────────────────
+            # leadsbrary actor output fields:
+            #   adArchiveID, pageName, adText, adCreativeBodies,
+            #   publisherPlatforms, startDate, ctaHeadline, ctaDescription,
+            #   ctaDomain, pageLikes, adSnapshotUrl, adStatus
             normalised = {
                 "ad_id": ad.get("adArchiveID") or ad.get("id", ""),
                 "page_name": ad.get("pageName") or ad.get("advertiserName", ""),
                 "ad_text": (
-                    ad.get("adBody")
-                    or ad.get("body")
-                    or ad.get("snapshot", {}).get("body", {}).get("text", "")
+                    ad.get("adText")
+                    or (ad.get("adCreativeBodies", [None]) or [None])[0]
+                    or ad.get("adBody")
                     or ""
                 ),
                 "ad_title": (
-                    ad.get("title")
-                    or ad.get("snapshot", {}).get("title", "")
+                    ad.get("ctaHeadline")
+                    or ad.get("title")
                     or ""
                 ),
                 "call_to_action": (
-                    ad.get("callToAction")
-                    or ad.get("snapshot", {}).get("cta_text", "")
+                    ad.get("ctaDescription")
+                    or ad.get("callToAction")
                     or ""
                 ),
                 "start_date": start_date_str,
                 "estimated_reach": (
                     ad.get("estimatedAudienceSize", {}).get("upper_bound", 0)
                     if isinstance(ad.get("estimatedAudienceSize"), dict)
-                    else ad.get("estimatedAudienceSize", 0)
+                    else ad.get("pageLikes", 0)  # Use page likes as proxy
                 ),
                 "impressions": ad.get("impressionsWithIndex", {}).get("impressionsText", "N/A"),
-                "platforms": ad.get("publisherPlatform", []),
+                "platforms": ad.get("publisherPlatforms", []),
                 "media_type": ad.get("adCreativeMediaType") or ad.get("mediaType", ""),
-                "ad_url": ad.get("adSnapshotURL") or ad.get("snapshotURL", ""),
+                "ad_url": ad.get("adSnapshotUrl") or ad.get("adLibraryURL", ""),
                 "currency": ad.get("currency", "USD"),
                 "spend": ad.get("spend", {}),
             }

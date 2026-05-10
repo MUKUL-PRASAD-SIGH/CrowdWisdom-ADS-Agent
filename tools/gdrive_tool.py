@@ -95,7 +95,7 @@ class GDriveTool(BaseTool):
     def _download_public(self, file_id: str, out_path: Path) -> str:
         url = f"https://drive.google.com/uc?id={file_id}"
         logger.debug("Downloading via gdown (public): {}", url)
-        gdown.download(url, str(out_path), quiet=False, fuzzy=True)
+        gdown.download(url, str(out_path), quiet=False)
         return self._read_file(out_path)
 
     # ── Private: service-account download ─────────────────────────────────
