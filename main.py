@@ -11,11 +11,16 @@ Usage:
     python main.py --dry-run        # Validate config without running
 """
 
-import json
 import sys
+import codecs
+import json
 import time
 from pathlib import Path
 from typing import Optional
+
+# Force UTF-8 for Windows console to prevent print crashes with emojis
+if sys.platform == "win32":
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 import typer
 from loguru import logger

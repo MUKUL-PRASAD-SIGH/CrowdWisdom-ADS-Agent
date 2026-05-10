@@ -196,31 +196,156 @@ h1, h2, h3, h4 {
   100% { transform: translateX(400%); }
 }
 
-/* Results Grid */
+.dashboard-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #FFF, #94A3B8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Results Grid - 4 Agents layout */
 .results-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
   gap: 24px;
 }
 
-.media-panel {
-  grid-column: 1 / -1;
+.agent-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  transition: all 0.3s ease;
 }
 
-.media-panel h2, .script-panel h2, .insights-panel h2 {
-  margin-bottom: 24px;
-  font-size: 1.5rem;
+.agent-panel.panel-active {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.pulse-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.pop-in {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.agent-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--panel-border);
-  padding-bottom: 12px;
-  width: 100%;
+  padding-bottom: 16px;
+}
+
+.agent-icon {
+  font-size: 2rem;
+}
+
+.agent-header h2 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.agent-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  min-height: 44px;
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 350px;
+  padding-right: 10px;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable-content::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.data-card {
+  background: rgba(0,0,0,0.2);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--panel-border);
+}
+
+.data-card p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.data-card strong {
+  color: var(--primary);
+}
+
+/* Media panel styles inside Agent 4 */
+.video-production-panel {
+  grid-column: 1 / -1;
+}
+
+.media-preview-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .preview-video {
-  max-width: 350px;
+  max-width: 300px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   border: 1px solid var(--panel-border);
@@ -228,7 +353,7 @@ h1, h2, h3, h4 {
 
 .video-placeholder {
   width: 100%;
-  max-width: 350px;
+  max-width: 300px;
   aspect-ratio: 9/16;
   background: rgba(0,0,0,0.3);
   border-radius: 16px;
@@ -249,16 +374,30 @@ h1, h2, h3, h4 {
 }
 
 .audio-player {
-  margin-top: 24px;
-  width: 100%;
+  flex: 1;
+  max-width: 400px;
+}
+
+.audio-player p {
+  margin-bottom: 12px;
+  color: var(--text-muted);
 }
 
 .audio-player audio {
   width: 100%;
-  margin-top: 10px;
 }
 
-/* Script & Insights */
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  .media-preview-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Script & Insights reused styles */
 .scene-card {
   background: rgba(0,0,0,0.2);
   padding: 16px;
@@ -311,4 +450,6 @@ h1, h2, h3, h4 {
 .empty-state {
   color: var(--text-muted);
   font-style: italic;
+  text-align: center;
+  padding: 40px 0;
 }

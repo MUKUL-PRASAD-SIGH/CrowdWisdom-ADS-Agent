@@ -46,6 +46,18 @@ def execute_pipeline(niche: str):
     state.status_message = f"Starting pipeline for niche: {niche}..."
     state.run_summary = None
     
+    # Clean up old output files so UI updates progressively
+    files_to_remove = ["ads_raw.json", "pain_concepts.json", "ad_script.json", "run_summary.json"]
+    for f in files_to_remove:
+        path = OUTPUTS_DIR / f
+        if path.exists():
+            path.unlink()
+            
+    # Also clean up media
+    video_path = OUTPUTS_DIR / "videos" / "final_ad.mp4"
+    if video_path.exists():
+        video_path.unlink()
+    
     try:
         # We redirect stdout so we could capture logs if needed, but for now we just run it
         print(f"Executing pipeline in background for: {niche}")
